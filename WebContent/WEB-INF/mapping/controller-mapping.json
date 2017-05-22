@@ -1,0 +1,4 @@
+{
+	"/blood.do":"mvc.controller.BloodController",
+	"/movie.do":"mvc.controller.MovieController"
+}
