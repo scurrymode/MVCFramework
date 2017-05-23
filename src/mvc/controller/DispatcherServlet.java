@@ -77,18 +77,21 @@ public class DispatcherServlet extends HttpServlet{
 		
 		//2단계: 요청을 분석한다(어떤 요청이 들어올지 모르니깐)
 		String uri=request.getRequestURI();
-		String msg = null;
+	//	String msg = null;
 		
-		RequestDispatcher dis = null;
+	//	RequestDispatcher dis = null;
 		
 		//내가 다하자니 너무 일이 많아~! 그래서 각각의 전담 컨트롤러를 만들어서 걔네한테 분배만 하자~!
 		
 		Controller controller = null;
+		JSONObject controllerObj = (JSONObject)jsonObject.get("controllerMapping");
+		JSONObject viewObj = (JSONObject)jsonObject.get("viewMapping");
+		
 
 		//3단계: 알맞는 로직 객체에 일 시킨다!!
 		//if(uri.equals("/blood.do")){			
 			try {
-				Class controllerClass = Class.forName((String)jsonObject.get(uri));
+				Class controllerClass = Class.forName((String)controllerObj.get(uri));
 				controller = (Controller)controllerClass.newInstance();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -97,8 +100,17 @@ public class DispatcherServlet extends HttpServlet{
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			controller.execute(request, response);	
-			 
+			//동생이 3,4단계에서 처리
+			String result = controller.execute(request, response);
+			
+			if(controller.isForward()){
+			//5단계: 결과 보여주기
+				RequestDispatcher dis = request.getRequestDispatcher((String)viewObj.get(result));
+				dis.forward(request, response);
+			} else {
+			//5단계 알맞는 뷰 보여주기
+				response.sendRedirect((String)viewObj.get(result));
+			}
 			//controller = new BloodController();
 			
 		//}else if(uri.equals("/movie.do")){
@@ -127,8 +139,6 @@ public class DispatcherServlet extends HttpServlet{
 	//	controller.execute(request, response);		
 		//dis.forward(request, response);
 	}
-	
-	
 	
 	public void destroy() {
 		if(fis!=null){

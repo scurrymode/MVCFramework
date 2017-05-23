@@ -1,4 +1,28 @@
+
 {
+	"controllerMapping":{
 	"/blood.do":"mvc.controller.BloodController",
-	"/movie.do":"mvc.controller.MovieController"
+	"/movie.do":"mvc.controller.MovieController",
+	"/board/list.do":"mvc.controller.board.ListController",
+	"/board/write.do":"mvc.controller.board.WriteController",
+	"/board/detail.do":"mvc.controller.board.DetailController",
+	"/board/delete.do":"mvc.controller.board.DeleteController",
+	"/board/edit.do":"mvc.controller.board.EditController",
+	
+	"/gallery/write.do":"mvc.controller.gallery.WriteController",
+	"/gallery/list.do":"mvc.controller.gallery.ListController",
+	"/gallery/detail.do":"mvc.controller.gallery.DetailController"
+	},
+	
+	"viewMapping":{
+	"/result/board/list":"/board/list.jsp",
+	"/result/board/write":"/board/list.do",
+	"/result/board/detail":"/board/detail.jsp",
+	"/result/board/delete":"/board/list.do",
+	"/result/board/edit":"/board/detail.jsp",
+	
+	"/result/gallery/write":"/gallery/list.do",
+	"/result/gallery/list":"/gallery/list.jsp",
+	"/result/gallery/detail":"/gallery/detail.jsp"
+	}
 }
